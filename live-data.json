@@ -1,0 +1,25 @@
+{
+  "lastSync": null,
+  "phase": "pre",
+  "scores": {
+    "xavs": 0,
+    "glen": 0,
+    "willy": 0,
+    "oldyarra": 0
+  },
+  "matches": {
+    "xavs": {
+      "period": "PRE",
+      "remainingSeconds": 1200,
+      "running": false,
+      "quality": "STANDBY"
+    },
+    "willy": {
+      "period": "PRE",
+      "remainingSeconds": 1200,
+      "running": false,
+      "quality": "STANDBY"
+    }
+  },
+  "events": []
+}
