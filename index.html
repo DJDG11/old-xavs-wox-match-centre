@@ -4,13 +4,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Old Xavs Finals Match Centre</title>
-
-<meta name="description" content="Old Xavs Finals Race Command Centre — live scores, finals percentage race, scoring worm and Footy Pulse commentary.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Old Xavs Finals Match Centre">
-<meta property="og:description" content="Live VAFA Premier B Women's finals race: scores, percentages, scoring worm and Footy Pulse.">
-<meta name="theme-color" content="#050608">
-
 <style>
 :root{--red:#c8102e;--black:#050608;--panel:#111318;--panel2:#1a1d23;--panel3:#232730;--border:#30343d;--white:#fff;--muted:#a7adb8;--green:#20b968;--amber:#efb63e;--gold:#d6a62f}
 *{box-sizing:border-box}
@@ -64,7 +57,7 @@ body{margin:0;background:#000;color:var(--white);font-family:Arial,Helvetica,san
 
 <header class="header">
  <div><div class="kicker">VAFA Premier B Women's • Final Round</div><h1>Old Xavs Finals Race Command Centre</h1></div>
- <div id="livePill" class="live-pill">● PUBLIC LIVE FEED • STANDBY</div>
+ <div id="livePill" class="live-pill">● PUBLIC LIVE FEED • READY</div>
 </header>
 
 <section class="broadcast-strip">
@@ -145,12 +138,12 @@ body{margin:0;background:#000;color:var(--white);font-family:Arial,Helvetica,san
 </main>
 
 <script>
-const BASE={x:{pf:535,pa:518,pts:28},w:{pf:333,pa:317,pts:28}};
+let BASE={x:{pf:535,pa:518,pts:28},w:{pf:333,pa:317,pts:28}};
 const $=id=>document.getElementById(id);
 const state={
  scores:{xavs:0,glen:0,willy:0,oldyarra:0},
  events:[],
- connected:false,lastSync:null,phase:'live',
+ connected:false,lastSync:null,phase:'pre',sourceStatus:'STANDBY',
  matches:{
    xavs:{period:'PRE',remainingSeconds:1200,running:false,lastTick:null,quality:'STANDBY'},
    willy:{period:'PRE',remainingSeconds:1200,running:false,lastTick:null,quality:'STANDBY'}
@@ -159,8 +152,29 @@ const state={
 
 const mp=(a,b)=>a>b?4:a===b?2:0;
 const pct=(pf,pa)=>pf/pa*100;
-function ladderState(){const s=state.scores;const xp=BASE.x.pts+mp(s.xavs,s.glen),wp=BASE.w.pts+mp(s.willy,s.oldyarra),xpc=pct(BASE.x.pf+s.xavs,BASE.x.pa+s.glen),wpc=pct(BASE.w.pf+s.willy,BASE.w.pa+s.oldyarra);return{xp,wp,xpc,wpc,finals:xp>wp?true:xp<wp?false:xpc>wpc}}
-function targetScore(){const s=state.scores;for(let x=0;x<=400;x++){const xp=BASE.x.pts+mp(x,s.glen),wp=BASE.w.pts+mp(s.willy,s.oldyarra),xpc=pct(BASE.x.pf+x,BASE.x.pa+s.glen),wpc=pct(BASE.w.pf+s.willy,BASE.w.pa+s.oldyarra);if(xp>wp||(xp===wp&&xpc>wpc))return x}return null}
+function ladderState(){
+ const s=state.scores;
+ const xStarted=quarterNumber(state.matches.xavs.period)>0 || state.phase==='final' || s.xavs>0 || s.glen>0;
+ const wStarted=quarterNumber(state.matches.willy.period)>0 || state.phase==='final' || s.willy>0 || s.oldyarra>0;
+ const xp=BASE.x.pts+(xStarted?mp(s.xavs,s.glen):0);
+ const wp=BASE.w.pts+(wStarted?mp(s.willy,s.oldyarra):0);
+ const xpc=pct(BASE.x.pf+s.xavs,BASE.x.pa+s.glen);
+ const wpc=pct(BASE.w.pf+s.willy,BASE.w.pa+s.oldyarra);
+ return{xp,wp,xpc,wpc,finals:xp>wp?true:xp<wp?false:xpc>wpc}
+}
+function targetScore(){
+ const s=state.scores;
+ const wStarted=quarterNumber(state.matches.willy.period)>0 || state.phase==='final' || s.willy>0 || s.oldyarra>0;
+ for(let x=0;x<=400;x++){
+   const xStarted=quarterNumber(state.matches.xavs.period)>0 || state.phase==='final' || x>0 || s.glen>0;
+   const xp=BASE.x.pts+(xStarted?mp(x,s.glen):0);
+   const wp=BASE.w.pts+(wStarted?mp(s.willy,s.oldyarra):0);
+   const xpc=pct(BASE.x.pf+x,BASE.x.pa+s.glen);
+   const wpc=pct(BASE.w.pf+s.willy,BASE.w.pa+s.oldyarra);
+   if(xp>wp||(xp===wp&&xpc>wpc))return x;
+ }
+ return null
+}
 function signed(n,d=0){const v=Number(n).toFixed(d);return n>0?`+${v}`:v}
 
 function quarterNumber(period){const m=String(period||'').match(/Q([1-4])/i);return m?Number(m[1]):0}
@@ -412,7 +426,10 @@ function render(){
  else if(s.xavs<=s.glen&&s.willy>s.oldyarra)$('message').textContent='Old Xavs need the match result first. Percentage only matters if ladder points finish level.';
  else if(s.xavs>s.glen&&s.willy>s.oldyarra)$('message').textContent='Both teams are winning. Live percentage race — score hard, defend harder, watch both clocks.';
  else $('message').textContent='The finals race is live. Watch the clocks, ladder points and percentage target.';
- const pill=$('livePill');pill.textContent=state.connected?'● PUBLIC LIVE FEED • CONNECTED':'● PUBLIC LIVE FEED • STANDBY';pill.classList.toggle('connected',state.connected);
+ const pill=$('livePill');
+ const isLive=state.connected && state.sourceStatus==='LIVE';
+ pill.textContent=isLive?'● PUBLIC LIVE FEED • LIVE':state.connected?'● PUBLIC LIVE FEED • READY':'● PUBLIC LIVE FEED • OFFLINE';
+ pill.classList.toggle('connected',isLive);
  $('syncText').textContent=state.lastSync?'Last update '+state.lastSync:'Waiting for live PlayHQ event feed';
  renderBroadcast();renderWorm();renderEvents();
 }
@@ -457,10 +474,15 @@ function render(){
 
     async function pollLiveData(){
       try{
-        const res=await fetch('live-data.json?ts='+Date.now(),{cache:'no-store'});
+        const res=await fetch('https://raw.githubusercontent.com/DIDG11/old-xavs-wox-match-centre/live/live-data.json?ts='+Date.now(),{cache:'no-store'});
         if(!res.ok) throw new Error('feed unavailable');
         const d=await res.json();
 
+        if(d.base && d.base.xavs && d.base.williamstown){
+          const bx=d.base.xavs, bw=d.base.williamstown;
+          if(Number.isFinite(bx.pf)&&Number.isFinite(bx.pa)&&bx.pa>0) BASE.x={...BASE.x,pf:bx.pf,pa:bx.pa,pts:Number.isFinite(bx.pts)?bx.pts:BASE.x.pts};
+          if(Number.isFinite(bw.pf)&&Number.isFinite(bw.pa)&&bw.pa>0) BASE.w={...BASE.w,pf:bw.pf,pa:bw.pa,pts:Number.isFinite(bw.pts)?bw.pts:BASE.w.pts};
+        }
         const before=ladderState();
         const incoming=d.scores||{};
 
@@ -545,10 +567,12 @@ function render(){
 
         previousScores={...state.scores};
         state.connected=true;
+        state.sourceStatus=d.sourceStatus||((d.phase==='live'||d.phase==='final')?'LIVE':'READY');
         state.lastSync=d.lastSync||new Date().toLocaleTimeString();
         render();
       }catch(e){
         state.connected=false;
+        state.sourceStatus='OFFLINE';
         render();
       }
     }
