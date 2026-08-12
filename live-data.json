@@ -2,8 +2,8 @@
     "scores":  {
                    "glen":  0,
                    "oldyarra":  0,
-                   "xavs":  6,
-                   "willy":  0
+                   "xavs":  7,
+                   "willy":  6
                },
     "base":  {
                  "williamstown":  {
@@ -26,13 +26,13 @@
                                   "quality":  "TEST",
                                   "running":  true,
                                   "period":  "Q1",
-                                  "remainingSeconds":  1140
+                                  "remainingSeconds":  1080
                               },
                     "xavs":  {
                                  "quality":  "TEST",
                                  "running":  true,
                                  "period":  "Q1",
-                                 "remainingSeconds":  1140
+                                 "remainingSeconds":  1080
                              }
                 },
     "phase":  "live",
