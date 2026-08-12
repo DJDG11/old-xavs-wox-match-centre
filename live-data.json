@@ -1,7 +1,7 @@
 {
     "scores":  {
-                   "glen":  0,
-                   "oldyarra":  0,
+                   "glen":  6,
+                   "oldyarra":  1,
                    "xavs":  7,
                    "willy":  6
                },
@@ -26,13 +26,13 @@
                                   "quality":  "TEST",
                                   "running":  true,
                                   "period":  "Q1",
-                                  "remainingSeconds":  1080
+                                  "remainingSeconds":  1020
                               },
                     "xavs":  {
                                  "quality":  "TEST",
                                  "running":  true,
                                  "period":  "Q1",
-                                 "remainingSeconds":  1080
+                                 "remainingSeconds":  1020
                              }
                 },
     "phase":  "live",
