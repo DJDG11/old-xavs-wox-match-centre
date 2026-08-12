@@ -474,7 +474,7 @@ function render(){
 
     async function pollLiveData(){
       try{
-        const res=await fetch('https://raw.githubusercontent.com/DIDG11/old-xavs-wox-match-centre/live/live-data.json?ts='+Date.now(),{cache:'no-store'});
+        const res=await fetch('https://raw.githubusercontent.com/DJDG11/old-xavs-wox-match-centre/live/live-data.json?ts='+Date.now(),{cache:'no-store'});
         if(!res.ok) throw new Error('feed unavailable');
         const d=await res.json();
 
