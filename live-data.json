@@ -1,9 +1,9 @@
 {
     "scores":  {
-                   "glen":  88,
-                   "oldyarra":  66,
-                   "xavs":  99,
-                   "willy":  77
+                   "glen":  0,
+                   "oldyarra":  0,
+                   "xavs":  0,
+                   "willy":  0
                },
     "base":  {
                  "williamstown":  {
@@ -20,21 +20,21 @@
     "events":  [
 
                ],
-    "lastSync":  "2026-08-12T19:20:10.0411121+10:00",
+    "lastSync":  "2026-08-12T19:30:59.5331553+10:00",
     "matches":  {
                     "willy":  {
-                                  "quality":  "TEST",
-                                  "running":  true,
-                                  "period":  "Q2",
-                                  "remainingSeconds":  777
+                                  "quality":  "STANDBY",
+                                  "running":  false,
+                                  "period":  "PRE",
+                                  "remainingSeconds":  1200
                               },
                     "xavs":  {
-                                 "quality":  "TEST",
-                                 "running":  true,
-                                 "period":  "Q2",
-                                 "remainingSeconds":  777
+                                 "quality":  "STANDBY",
+                                 "running":  false,
+                                 "period":  "PRE",
+                                 "remainingSeconds":  1200
                              }
                 },
-    "phase":  "live",
-    "sourceStatus":  "LIVE"
+    "phase":  "pre",
+    "sourceStatus":  "READY"
 }
