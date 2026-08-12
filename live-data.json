@@ -1,25 +1,40 @@
 {
-  "lastSync": null,
-  "phase": "pre",
-  "scores": {
-    "xavs": 0,
-    "glen": 0,
-    "willy": 0,
-    "oldyarra": 0
-  },
-  "matches": {
-    "xavs": {
-      "period": "PRE",
-      "remainingSeconds": 1200,
-      "running": false,
-      "quality": "STANDBY"
-    },
-    "willy": {
-      "period": "PRE",
-      "remainingSeconds": 1200,
-      "running": false,
-      "quality": "STANDBY"
-    }
-  },
-  "events": []
+    "scores":  {
+                   "glen":  0,
+                   "oldyarra":  0,
+                   "xavs":  0,
+                   "willy":  0
+               },
+    "base":  {
+                 "williamstown":  {
+                                      "pa":  317,
+                                      "pts":  28,
+                                      "pf":  333
+                                  },
+                 "xavs":  {
+                              "pa":  518,
+                              "pts":  28,
+                              "pf":  535
+                          }
+             },
+    "events":  [
+
+               ],
+    "lastSync":  "2026-08-12T16:39:14.1630532+10:00",
+    "matches":  {
+                    "willy":  {
+                                  "quality":  "STANDBY",
+                                  "running":  false,
+                                  "period":  "PRE",
+                                  "remainingSeconds":  1200
+                              },
+                    "xavs":  {
+                                 "quality":  "STANDBY",
+                                 "running":  false,
+                                 "period":  "PRE",
+                                 "remainingSeconds":  1200
+                             }
+                },
+    "phase":  "pre",
+    "sourceStatus":  "READY"
 }
